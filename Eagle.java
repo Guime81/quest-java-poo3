@@ -26,29 +26,33 @@ public class Eagle extends Bird implements Fly {
     public void takeOff() {
         if (!this.flying && this.altitude == 0) {
             this.flying = true;
-            System.out.printf("%s flying in the air.%n", this.getName());
+            System.out.println(this.getName() + " takes off in the sky.");
         }
     }
 
     @Override
-    public int ascend(int meters) {
+    public int ascend(int altitude) {
         if (this.flying) {
-            this.altitude += meters;
-            System.out.println(this.getName() + " flies upward, altitude: " + this.altitude);
+            this.altitude = Math.min(this.altitude + altitude, 500);
+            System.out.println(this.getName() + ", flies upward, altitude : " + this.altitude);
         }
+
         return this.altitude;
     }
 
     @Override
     public void glide() {
-        System.out.println("Glides into the air");
+        if (this.flying) {
+            System.out.println(this.getName() + " glides into the air.");
+        }
     }
 
     @Override
-    public int descend(int meters) {
+    public int descend(int altitude) {
         if (this.flying) {
-            this.altitude -= meters;
-            System.out.println(this.getName() + " flies downward, altitude: " + this.altitude);
+            this.altitude = Math.max(this.altitude - altitude, 0);
+            System.out.println(this.getName() + ", flies downward, altitude : " + this.altitude);
+
         }
         return this.altitude;
     }
@@ -56,9 +60,10 @@ public class Eagle extends Bird implements Fly {
     @Override
     public void land() {
         if (this.flying && this.altitude == 1) {
-            System.out.println(this.getName() + " is too high, it can't land.");
+            this.flying = false;
+            System.out.println(this.getName() + ", lands on the ground.");
         } else {
-            System.out.println(this.getName() + " lands on the ground.");
+            System.out.println(this.getName() + " is too high, it can't land.");
         }
     }
 }
